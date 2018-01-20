@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+
+<center>
+<form name="loginForm" id="login" action="#" onsubmit="return login(this);">
+    <input type="text" name="username" id="username" placeholder="Pick a username!" />
+    <input type="submit" name="login_submit" value="Log In">
+</form>
+<form name="callForm" id="call" action="#" onsubmit="return makeCall(this);">
+ <input type="text" name="number" placeholder="Enter user to dial!" />
+ <input type="submit" value="Call"/>
+</form>
+</center>
+<div style="width: 500px;">
+ <div style="float: left; width: 200px; height:200px;border: 1px solid black" >
+	<video id='videoDiv' style="width: 200px; height:200px;" autoplay></video>
+ </div>
+ <div style="margin-left:20px; float: left; width: 200px; height:200px;border: 1px solid green">
+	<div id="vid-box" ></div>
+ </div>
+
+ <br style="clear: left;" />
+</div>
+
+</body>
+
+
+<script src="jquery.min.js"></script>
+<script src="pubnub-3.7.14.min.js"></script>
+<script src="webrtc.js"></script>
+<script type="text/javascript">
+var video_out = document.getElementById("vid-box");
+
+function login(form) {
+     var phone = window.phone = PHONE({
+     number        : form.username.value || "Anonymous", // listen on username line else Anonymous
+     publish_key   : 'pub-c-d1c993b0-fe19-4455-88c2-5c518c791e63',
+     subscribe_key : 'sub-c-12abef10-fd97-11e7-8c23-76e4b319f7ff',
+ }); 
+ phone.ready(function(){ form.username.style.background="#55ff5b"; alert("login sucessufull")});
+ navigator.mediaDevices.getUserMedia({ video: true}).then(stream => videoDiv.srcObject = stream);
+ phone.receive(function(session){
+     session.connected(function(session) { video_out.appendChild(session.video); });
+     session.ended(function(session) { video_out.innerHTML=''; });
+ });
+ return false;  // So the form does not submit.
+}
+
+function makeCall(form){
+        if (!window.phone) alert("Login First!");
+	else phone.dial(form.number.value);
+	return false;
+}
+
+
+
+</script>
+
+</html>
