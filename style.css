@@ -1,0 +1,46 @@
+#chatwindow{
+position:relative;
+/*     if you wish to use all of your space, use
+    position:absolute; top:0;left:0;right:0;bottom:0;
+    or drop the chatdwindow div 
+*/ position:absolute;
+   right:0;
+   top:0;
+   bottom: 0;
+    height:100%; 
+    width:366px;
+}
+#messagewindow, #inputcontainer{
+    position:absolute;
+    left:0;
+    right:0;
+    border:1px solid #DDDDDD;
+}
+#messagewindow{   
+    overflow:auto;
+    top:0;
+    bottom:3em;
+}
+#inputcontainer{
+    display:inline-block;
+    bottom:0;
+    height:1em;
+    padding:.5em;
+    margin-top:1em;
+}
+
+#inputcontainer > p{
+    margin:0;
+}
+#callwindow{
+    position: absolute;
+    bottom: 10px;
+    position:fixed;
+    left:50%;
+    width:250px;
+}
+
+#starttime{
+position:relative;
+
+}

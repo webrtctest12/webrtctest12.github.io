@@ -2,17 +2,66 @@
 <html>
 <body>
 
+<script type="text/javascript">
+function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,    
+    function(m,key,value) {
+      vars[key] = value;
+    });
+    return vars;
+  }
+    
+     var type = getUrlVars()["data"]; 
+     var body = document.getElementsByTagName('body')[0];
 
+     if (type=='Doctor') {
+      alert('Doctor');
+      body.style.backgroundImage = 'url(doctor-patient.jpg)';
+    } else { 
+       alert('Patient');
+       body.style.backgroundImage = 'url(sss.jpg)';
+
+}
+
+
+
+</script>>
+
+<!-- <style>
+body {
+          background-image: url("doctor-patient.jpg"); 
+          background-repeat:no-repeat;
+          background-size:cover;
+} 
+</style> -->
+
+<link rel="stylesheet" type="text/css" href="style.css">
 <center>
 <form name="loginForm" id="login" action="#" onsubmit="return login(this);">
-    <input type="text" name="username" id="username" placeholder="Pick a username!" />
+    <input type="text" name="username" id="username"  />
     <input type="submit" name="login_submit" value="Log In">
 </form>
+<!-- <div id="callwindow"> -->
 <form name="callForm" id="call" action="#" onsubmit="return makeCall(this);">
- <input type="text" name="number" placeholder="Enter user to dial!" />
+ <input type="text" name="number"  />
  <input type="submit" value="Call"/>
 </form>
 </center>
+
+<!-- </div > -->
+
+<!-- <div id="callwindow">
+<left>
+<form name="timeform" id="stime" action="#" onsubmit="return makeCall(this);">
+ <input type="text" name="number" placeholder="Enter user to dial!" />
+ <input type="submit" value="Call"/>
+</form>
+</left>
+</div > -->
+
+
+
 <div style="width: 500px;">
  <div style="float: left; width: 200px; height:200px;border: 1px solid black" >
 	<video id='videoDiv' style="width: 200px; height:200px;" autoplay></video>
@@ -33,16 +82,21 @@
 <script type="text/javascript">
 var video_out = document.getElementById("vid-box");
 
+  
 function login(form) {
      var phone = window.phone = PHONE({
      number        : form.username.value || "Anonymous", // listen on username line else Anonymous
      publish_key   : 'pub-c-d1c993b0-fe19-4455-88c2-5c518c791e63',
      subscribe_key : 'sub-c-12abef10-fd97-11e7-8c23-76e4b319f7ff',
  }); 
+ phone.message(function( session, message ) {
+        show_chat( session.number, message.text );
+      } );
  phone.ready(function(){ form.username.style.background="#55ff5b"; alert("login sucessufull")});
  navigator.mediaDevices.getUserMedia({ video: true}).then(stream => videoDiv.srcObject = stream);
  phone.receive(function(session){
      session.connected(function(session) { video_out.appendChild(session.video); });
+     
      session.ended(function(session) { video_out.innerHTML=''; });
  });
  return false;  // So the form does not submit.
@@ -54,8 +108,49 @@ function makeCall(form){
 	return false;
 }
 
+/*function toTimeString(seconds) {
+  return (new Date(seconds * 1000)).toUTCString().match(/(\d\d:\d\d:\d\d)/)[0];
+}
+
+function myFunction() {
+    document.getElementById("demo").innerHTML = new Date();
+}*/
+
+function send( ){
+    phone.send({ text : document.getElementById("user_input").value });
+    show_chat( 'me', document.getElementById("user_input").value );
+}
+function show_chat( session, message ){
+    var str2 = " : ".blink();
+    /*document.getElementById('display').innerHTML = session + str2 + message;*/
+   var sss = session.bold() + str2.fontcolor("red") + message.italics() + '<br>';
+    const div = document.getElementById("display");
+    div.insertAdjacentHTML('beforeend', sss);
+    document.getElementById("user_input").value = "";
+}
+
 
 
 </script>
+<!-- <div id="Dashboard">
+<p><span id='displaytime'></span></p>
+<p id="demo" onclick="myFunction()">Click me to see time.</p>
+
+</div> -->
+
+<div id="chatwindow">
+ <div id="messagewindow">
+<p><span id='display'></span></p>
+
+   </div>
+ <div id="inputcontainer">
+       <form onsubmit="return false">
+    <label><b>Enter a Message</b></label>
+    <input type="text" name="message" id="user_input">
+    <input type="submit" value="send" onclick="return send();"><br/>
+  </form>
+ </div>
+</div>
+
 
 </html>

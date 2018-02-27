@@ -1,15 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-<h1><center>WEBRTC Simple Video chat YGB </center></h1>
+<h1><center>Doctor Connect</center></h1>
 <style>
 body {
-        background-image: url("connect.jpg");
+          background-image: url("doctor-patient.jpg"); 
+          background-repeat:no-repeat;
+          background-size:cover;
 } 
 </style>
 </head>
 <body>
-<h3><center> <button type="button" onclick="window.location.href='first.html'">Click to Connect</button> </center></h3>
+<h3><center> <button type="button" onclick="connect( 'Doctor' )">Click to Connect as Doctor</button> </center></h3>
+<script> 
+
+function connect(data){
+    window.location.href="first.html?data="+data;
+}
+
+</script>
+<h3><center> <button type="button" onclick="connect( 'Patient' )">Click to Connect as Patient</button> </center></h3>
 </body>
 
 </html>
