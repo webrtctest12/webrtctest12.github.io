@@ -1,41 +1,6 @@
 <!DOCTYPE html>
 <html>
 <body>
-
-<script type="text/javascript">
-function getUrlVars() {
-    var vars = {};
-    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,    
-    function(m,key,value) {
-      vars[key] = value;
-    });
-    return vars;
-  }
-    
-     var type = getUrlVars()["data"]; 
-     var body = document.getElementsByTagName('body')[0];
-
-     if (type=='Doctor') {
-      alert('Doctor');
-      body.style.backgroundImage = 'url(doctor-patient.jpg)';
-    } else { 
-       alert('Patient');
-       body.style.backgroundImage = 'url(sss.jpg)';
-
-}
-
-
-
-</script>>
-
-<!-- <style>
-body {
-          background-image: url("doctor-patient.jpg"); 
-          background-repeat:no-repeat;
-          background-size:cover;
-} 
-</style> -->
-
 <link rel="stylesheet" type="text/css" href="style.css">
 <center>
 <form name="loginForm" id="login" action="#" onsubmit="return login(this);">
@@ -47,19 +12,8 @@ body {
  <input type="text" name="number"  />
  <input type="submit" value="Call"/>
 </form>
+<button type="button" onclick="end()">Hangup</button> 
 </center>
-
-<!-- </div > -->
-
-<!-- <div id="callwindow">
-<left>
-<form name="timeform" id="stime" action="#" onsubmit="return makeCall(this);">
- <input type="text" name="number" placeholder="Enter user to dial!" />
- <input type="submit" value="Call"/>
-</form>
-</left>
-</div > -->
-
 
 
 <div style="width: 500px;">
@@ -72,6 +26,7 @@ body {
 
  <br style="clear: left;" />
 </div>
+  
 
 </body>
 
@@ -82,7 +37,6 @@ body {
 <script type="text/javascript">
 var video_out = document.getElementById("vid-box");
 
-  
 function login(form) {
      var phone = window.phone = PHONE({
      number        : form.username.value || "Anonymous", // listen on username line else Anonymous
@@ -92,12 +46,15 @@ function login(form) {
  phone.message(function( session, message ) {
         show_chat( session.number, message.text );
       } );
+
  phone.ready(function(){ form.username.style.background="#55ff5b"; alert("login sucessufull")});
  navigator.mediaDevices.getUserMedia({ video: true}).then(stream => videoDiv.srcObject = stream);
  phone.receive(function(session){
      session.connected(function(session) { video_out.appendChild(session.video); });
      
      session.ended(function(session) { video_out.innerHTML=''; });
+
+
  });
  return false;  // So the form does not submit.
 }
@@ -108,18 +65,18 @@ function makeCall(form){
 	return false;
 }
 
-/*function toTimeString(seconds) {
-  return (new Date(seconds * 1000)).toUTCString().match(/(\d\d:\d\d:\d\d)/)[0];
+
+      function end(){
+  phone.hangup();
 }
 
-function myFunction() {
-    document.getElementById("demo").innerHTML = new Date();
-}*/
 
 function send( ){
     phone.send({ text : document.getElementById("user_input").value });
     show_chat( 'me', document.getElementById("user_input").value );
 }
+
+
 function show_chat( session, message ){
     var str2 = " : ".blink();
     /*document.getElementById('display').innerHTML = session + str2 + message;*/
@@ -129,14 +86,7 @@ function show_chat( session, message ){
     document.getElementById("user_input").value = "";
 }
 
-
-
 </script>
-<!-- <div id="Dashboard">
-<p><span id='displaytime'></span></p>
-<p id="demo" onclick="myFunction()">Click me to see time.</p>
-
-</div> -->
 
 <div id="chatwindow">
  <div id="messagewindow">
@@ -152,5 +102,75 @@ function show_chat( session, message ){
  </div>
 </div>
 
+<div id =patientscreen>
+<p><b><h3>Avaliable Doctors</h3></b></p>
+<p>Dr.YGB            :Anesthesiologist </p>
+<p>Dr.Carthi         : General</p>
+<P>Dr.Raam          : Ophthalmologist</p>
+<P>Dr.Bharath         : Physiatrist</p>
+<P>Dr.kamal         : Dermatologist</p>
+<P>Dr.Sagar         : Cardiology</p>
+</div>
 
+<div id="doctorscreen">
+<table style="width:366px%;height:47%;">
+  <tr>
+    <th>Timings</th>
+    <th>Schedule</th> 
+  </tr>
+  <tr>
+    <td>9AM to 11AM</td>
+    <td>Inpatients Meetings</td> 
+  </tr>
+  <tr>
+    <td>11AM to 1 PM</td>
+    <td>Outpatients Meetings</td> 
+  </tr>
+  <tr>
+    <td>1PM to 2PM</td>
+    <td>BREAK</td> 
+  </tr>
+  <tr>
+    <td>2PM to 5PM</td>
+    <td>Operation</td> 
+  </tr>
+  <tr>
+    <td>5PM to 6PM</td>
+    <td>BREAK</td> 
+  </tr>
+
+</table>
+
+<textarea rows="10" cols="49"  >
+Notes to be taken by the doctor 
+</textarea>
+
+
+</div>
+
+<script type="text/javascript">
+function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,    
+    function(m,key,value) {
+      vars[key] = value;
+    });
+    return vars;
+  }
+    
+     var type = getUrlVars()["data"]; 
+     var body = document.getElementsByTagName('body')[0];
+
+     if (type=='Doctor') {
+      body.style.backgroundImage = 'url(carthi.jpg)';
+      document.getElementById('doctorscreen').style.display = 'block'; //Will show
+      document.getElementById('patientscreen').style.display = 'none'; //Will hide
+    } else { 
+       body.style.backgroundImage = 'url(healthcare.jpg)';
+       document.getElementById('patientscreen').style.display = 'block'; //Will show
+       document.getElementById('doctorscreen').style.display = 'none'; //Will hide
+
+}
+
+</script>
 </html>

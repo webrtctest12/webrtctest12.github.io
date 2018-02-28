@@ -6,8 +6,8 @@ position:relative;
 */ position:absolute;
    right:0;
    top:0;
-   bottom: 0;
-    height:100%; 
+    bottom: 0;
+    height:50%; 
     width:366px;
 }
 #messagewindow, #inputcontainer{
@@ -15,6 +15,7 @@ position:relative;
     left:0;
     right:0;
     border:1px solid #DDDDDD;
+    border-style: groove;
 }
 #messagewindow{   
     overflow:auto;
@@ -43,4 +44,18 @@ position:relative;
 #starttime{
 position:relative;
 
+}
+
+#patientscreen, #doctorscreen{
+    position:absolute;
+     border-style: groove;
+     width:366px;
+     height:47%;
+     bottom: 0;
+     right:0;
+
+}
+table, th, td {
+    border: 1px solid black;
+    width:366px;
 }
